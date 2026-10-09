@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { EsqueceuSenhaSucesso } from "@/paginas/Login/EsqueceuSenhaSucesso";
 import { EsqueceuSenhaTela } from "@/paginas/Login/EsqueceuSenhaTela";
 import { Login } from "@/paginas/Login";
+import { NovaSenhaSucesso } from "@/paginas/Login/NovaSenhaSucesso";
 import { NovaSenhaTela } from "@/paginas/Login/NovaSenhaTela";
 import { SelecaoSistemas } from "@/paginas/SelecaoSistemas";
 import { estaAutenticado } from "@/servicos/recursos/autenticacao";
@@ -42,6 +43,8 @@ export function RotasApp() {
           />
         }
       />
+      <Route path={CAMINHOS.novaSenhaSucesso} element={<NovaSenhaSucesso />} />
+      <Route path="*" element={<Navigate to={CAMINHOS.login} replace />} />
     </Routes>
   );
 }
