@@ -1,4 +1,5 @@
 export const CAMINHOS = {
+  inicio: "/",
   login: "/login",
   esqueciSenha: "/esqueci-minha-senha",
   esqueciSenhaSucesso: "/esqueci-minha-senha-sucesso",

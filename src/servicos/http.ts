@@ -43,6 +43,7 @@ function adicionarInterceptors(instancia: AxiosInstance): void {
       if (status === 401 || codigo === "token_not_valid") {
         localStorage.removeItem("TOKEN");
         localStorage.removeItem("USUARIO");
+        localStorage.removeItem("NOME_USUARIO");
       } else if (status === 403) {
         window.location.href = "/403";
       }
