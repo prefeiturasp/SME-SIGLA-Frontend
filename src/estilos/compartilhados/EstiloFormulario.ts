@@ -18,12 +18,25 @@ export const LabelCampo = styled.label`
 export const InputForm = styled(Input)`
   width: 100%;
   min-width: 0;
+
+  &.ant-input-status-error,
+  &.ant-input-status-error:hover,
+  &.ant-input-status-error:focus {
+    border-color: ${({ theme }) => theme.colors.error} !important;
+  }
 `;
 
 /** Input de senha reutilizavel. */
 export const InputSenhaForm = styled(Password)`
   width: 100%;
   min-width: 0;
+
+  &.ant-input-affix-wrapper-status-error,
+  &.ant-input-affix-wrapper-status-error:hover,
+  &.ant-input-affix-wrapper-status-error:focus,
+  &.ant-input-affix-wrapper-status-error-focused {
+    border-color: ${({ theme }) => theme.colors.error} !important;
+  }
 `;
 
 /** Form.Item alinhado ao padrao do sistema. */
@@ -45,6 +58,7 @@ export const FormItem = styled(Form.Item)`
 /** Agrupa label + campo quando nao se usa Form.Item do antd. */
 export const CampoFormulario = styled.div`
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   width: 100%;
   margin-bottom: ${({ theme }) => theme.spacing.lg}px;
