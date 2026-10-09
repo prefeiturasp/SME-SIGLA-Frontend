@@ -11,10 +11,13 @@ import {
   BotaoVoltar,
   ItemRequisito,
   ListaRequisitos,
-  LoginCard,
   LoginFormulario,
-  LoginPagina,
+  LoginPaginaLateral,
+  LoginSubtitulo,
+  LoginTitulo,
   MensagemErro,
+  PainelLateralLogin,
+  SecaoTituloLogin,
   TituloRequisitos,
 } from "./Estilos";
 
@@ -22,10 +25,10 @@ export function NovaSenhaTela() {
   const {
     loading,
     alert,
+    fecharAlerta,
     control,
     handleSubmit,
     errors,
-    isButtonDisabled,
     hasMinLength,
     hasLowerCase,
     hasUpperCase,
@@ -33,19 +36,28 @@ export function NovaSenhaTela() {
     hasSpecialChar,
     hasNoSpaces,
     hasNoAccents,
+    avaliarRequisitos,
     handleCancel,
   } = useNovaSenha();
 
   return (
-    <LoginPagina>
-      <LoginCard>
-        <CabecalhoLogin
-          titulo="Crie uma nova senha"
-          subtitulo="Esta será sua nova senha de acesso ao SIGLA"
-        />
+    <LoginPaginaLateral>
+      <PainelLateralLogin>
+        <CabecalhoLogin />
+
+        <SecaoTituloLogin>
+          <LoginTitulo>Crie uma nova senha</LoginTitulo>
+          <LoginSubtitulo>
+            Esta será sua nova senha de acesso ao Sigla.
+          </LoginSubtitulo>
+        </SecaoTituloLogin>
 
         {alert ? (
-          <AlertaLogin message={alert.message} type={alert.type} showIcon />
+          <AlertaLogin
+            message={alert.message}
+            type={alert.type}
+            onClose={fecharAlerta}
+          />
         ) : null}
 
         <LoginFormulario onSubmit={handleSubmit}>
@@ -59,7 +71,7 @@ export function NovaSenhaTela() {
                   {...field}
                   id="nova_senha"
                   placeholder="Digite sua senha"
-                  status={errors.nova_senha ? "error" : ""}
+                  status={errors.nova_senha ? "error" : undefined}
                 />
               )}
             />
@@ -73,32 +85,32 @@ export function NovaSenhaTela() {
               Por questões de segurança, a senha deve seguir os seguintes
               critérios:
             </TituloRequisitos>
-            <ItemRequisito $atendido={hasLowerCase}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasLowerCase}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Ao menos uma letra minúscula</span>
             </ItemRequisito>
-            <ItemRequisito $atendido={hasUpperCase}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasUpperCase}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Ao menos uma letra maiúscula</span>
             </ItemRequisito>
-            <ItemRequisito $atendido={hasMinLength}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasMinLength}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Entre 8 e 12 caracteres</span>
             </ItemRequisito>
-            <ItemRequisito $atendido={hasNumber}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasNumber}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Ao menos um caracter numérico</span>
             </ItemRequisito>
-            <ItemRequisito $atendido={hasSpecialChar}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasSpecialChar}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Ao menos um caracter especial (#$@!%&*?)</span>
             </ItemRequisito>
-            <ItemRequisito $atendido={hasNoSpaces}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasNoSpaces}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Não deve conter espaços em branco</span>
             </ItemRequisito>
-            <ItemRequisito $atendido={hasNoAccents}>
-              <CheckCircleFilled />
+            <ItemRequisito $avaliado={avaliarRequisitos} $atendido={hasNoAccents}>
+              {avaliarRequisitos ? <CheckCircleFilled /> : null}
               <span>Não deve conter caracteres acentuados</span>
             </ItemRequisito>
           </ListaRequisitos>
@@ -115,7 +127,7 @@ export function NovaSenhaTela() {
                   {...field}
                   id="confirmar_senha"
                   placeholder="Digite sua senha"
-                  status={errors.confirmar_senha ? "error" : ""}
+                  status={errors.confirmar_senha ? "error" : undefined}
                 />
               )}
             />
@@ -124,18 +136,16 @@ export function NovaSenhaTela() {
             ) : null}
           </CampoFormulario>
 
-          <AvisoImportanteLogin />
+          {/* <AvisoImportanteLogin /> */}
 
-          <BotaoAcessar loading={loading} disabled={isButtonDisabled}>
-            Salvar senha
-          </BotaoAcessar>
+          <BotaoAcessar loading={loading}>Salvar senha</BotaoAcessar>
 
           <BotaoVoltar onClick={handleCancel}>Cancelar</BotaoVoltar>
 
           <RodapePrefeitura />
         </LoginFormulario>
-      </LoginCard>
-    </LoginPagina>
+      </PainelLateralLogin>
+    </LoginPaginaLateral>
   );
 }
 
