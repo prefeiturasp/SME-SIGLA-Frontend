@@ -1,7 +1,7 @@
 export const colors = {
   /** Cor primaria do sistema (botao Acessar / brand). */
   primary: "#006A6A",
-  primaryHover: "#005858",
+  primaryHover: "#014646",
   primaryActive: "#004F4F",
   primarySoft: "rgba(0, 106, 106, 0.1)",
 
