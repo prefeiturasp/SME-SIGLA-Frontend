@@ -1,13 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schemaNovaSenha } from "../formValidacaoSchema";
 import { usePostNovaSenha } from "./usePostNovaSenha";
-import type {
-  INovaSenhaRequest,
-  INovaSenhaResponse,
-} from "@/servicos/recursos/login/novaSenha";
+import type { INovaSenhaRequest } from "@/servicos/recursos/login/novaSenha";
 import { CAMINHOS } from "@/rotas/caminhos";
 import type { DadosNovaSenha } from "../formValidacaoSchema";
 
@@ -40,6 +37,11 @@ export const useNovaSenha = () => {
 
   const novaSenhaValue = watch("nova_senha");
   const confirmarSenhaValue = watch("confirmar_senha");
+  const [digitacaoIniciada, setDigitacaoIniciada] = useState(false);
+
+  useEffect(() => {
+    if (novaSenhaValue) setDigitacaoIniciada(true);
+  }, [novaSenhaValue]);
 
   const hasMinLength = Boolean(
     novaSenhaValue && novaSenhaValue.length >= 8 && novaSenhaValue.length <= 12,
@@ -50,10 +52,10 @@ export const useNovaSenha = () => {
   const hasSpecialChar = Boolean(
     novaSenhaValue && /[#$@!%&*?]/.test(novaSenhaValue),
   );
-  const hasNoSpaces = novaSenhaValue ? !/\s/.test(novaSenhaValue) : true;
-  const hasNoAccents = novaSenhaValue
-    ? !/[áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(novaSenhaValue)
-    : true;
+  const hasNoSpaces = Boolean(novaSenhaValue && !/\s/.test(novaSenhaValue));
+  const hasNoAccents = Boolean(
+    novaSenhaValue && !/[áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(novaSenhaValue),
+  );
 
   const isButtonDisabled =
     !novaSenhaValue ||
@@ -86,15 +88,8 @@ export const useNovaSenha = () => {
     };
 
     novaSenhaMutation.mutate(payload, {
-      onSuccess: (data: INovaSenhaResponse) => {
-        setAlert({
-          type: "success",
-          message: data.message || "Senha alterada com sucesso!",
-        });
-
-        setTimeout(() => {
-          navigate(CAMINHOS.login);
-        }, 2000);
+      onSuccess: () => {
+        navigate(CAMINHOS.novaSenhaSucesso);
       },
       onError: (error: unknown) => {
         setAlert({
@@ -115,6 +110,7 @@ export const useNovaSenha = () => {
   return {
     loading: novaSenhaMutation.isPending,
     alert,
+    fecharAlerta: () => setAlert(null),
     control,
     handleSubmit: handleSubmit(onFinish),
     errors,
@@ -126,6 +122,7 @@ export const useNovaSenha = () => {
     hasSpecialChar,
     hasNoSpaces,
     hasNoAccents,
+    avaliarRequisitos: digitacaoIniciada,
     handleCancel,
   };
 };

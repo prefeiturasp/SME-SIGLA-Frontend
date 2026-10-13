@@ -12,7 +12,13 @@ import {
 } from "./Estilos";
 
 export function EsqueceuSenhaSucesso() {
-  const { loading, usuarioEmail, handleBackToLogin } = useEsqueceuSenhaSucesso();
+  const {
+    loading,
+    usuarioEmail,
+    alertaVisivel,
+    fecharAlerta,
+    handleBackToLogin,
+  } = useEsqueceuSenhaSucesso();
 
   return (
     <LoginPagina>
@@ -23,17 +29,19 @@ export function EsqueceuSenhaSucesso() {
           <LoginTitulo>Recuperação de senha</LoginTitulo>
         </SecaoTituloLogin>
 
-        <AlertaLogin
-          message={
-            <>
-              Seu link de recuperação de senha foi enviado para{" "}
-              <strong>{usuarioEmail}</strong>
-            </>
-          }
-          description="Verifique sua caixa de entrada ou lixo eletrônico."
-          type="success"
-          showIcon
-        />
+        {alertaVisivel ? (
+          <AlertaLogin
+            message={
+              <>
+                Seu link de recuperação de senha foi enviado para{" "}
+                <strong>{usuarioEmail}</strong>
+              </>
+            }
+            description="Verifique sua caixa de entrada ou lixo eletrônico."
+            type="success"
+            onClose={fecharAlerta}
+          />
+        ) : null}
 
         <LoginFormulario>
           <BotaoAcessar

@@ -7,10 +7,7 @@ export const schemaLogin = z.object({
     .string()
     .min(1, mensagemObrigatorio)
     .regex(/^\d+$/, "RF deve conter apenas números"),
-  senha: z
-    .string()
-    .min(1, mensagemObrigatorio)
-    .min(3, "Senha deve ter pelo menos 3 caracteres"),
+  senha: z.string().min(1, "Campo obrigatório"),
 });
 
 export const schemaEsqueceuSenha = z.object({
@@ -44,7 +41,7 @@ export const schemaNovaSenha = z
   .object({
     nova_senha: z
       .string()
-      .min(1, mensagemObrigatorio)
+      .min(1, "Campo obrigatório")
       .min(8, "A senha deve ter entre 8 e 12 caracteres")
       .max(12, "A senha deve ter entre 8 e 12 caracteres")
       .regex(/[a-z]/, "Ao menos uma letra minúscula")
@@ -56,7 +53,7 @@ export const schemaNovaSenha = z
         (value) => !/[áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(value),
         "Não deve conter caracteres acentuados",
       ),
-    confirmar_senha: z.string().min(1, mensagemObrigatorio),
+    confirmar_senha: z.string().min(1, "Campo obrigatório"),
   })
   .refine((dados) => dados.nova_senha === dados.confirmar_senha, {
     message: "As senhas não coincidem",

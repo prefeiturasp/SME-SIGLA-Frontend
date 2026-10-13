@@ -115,6 +115,7 @@ export const useEsqueceuSenha = () => {
   return {
     loading: esqueceuSenhaMutation.isPending,
     alert,
+    fecharAlerta: () => setAlert(null),
     control,
     handleSubmit: handleSubmit(onFinish),
     errors,
