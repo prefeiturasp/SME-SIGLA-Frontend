@@ -172,6 +172,8 @@ describe("EsqueceuSenha", () => {
     const usuario = userEvent.setup();
     jest.mocked(postEsqueceuSenha).mockReturnValue({
       response: Promise.resolve({
+        success: true,
+        message: "E-mail enviado",
         email: "ana@sme.prefeitura.sp.gov.br",
         usuario: "1234567",
       }),
@@ -343,7 +345,10 @@ describe("NovaSenha", () => {
   it("mostra campos obrigatorios e salva quando a senha e valida", async () => {
     const usuario = userEvent.setup();
     jest.mocked(postNovaSenha).mockReturnValue({
-      response: Promise.resolve({}),
+      response: Promise.resolve({
+        success: true,
+        message: "Senha alterada",
+      }),
       abort: jest.fn(),
     });
 
