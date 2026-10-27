@@ -1,7 +1,6 @@
 import { CheckCircleFilled } from "@ant-design/icons";
 import { Controller } from "react-hook-form";
 import { CampoFormulario, InputSenhaForm, LabelCampo } from "@/estilos";
-import { AvisoImportanteLogin } from "./components/AvisoImportanteLogin";
 import { CabecalhoLogin } from "./components/CabecalhoLogin";
 import { RodapePrefeitura } from "./components/RodapePrefeitura";
 import { useNovaSenha } from "./hooks/useNovaSenha";
