@@ -16,6 +16,8 @@ RUN echo "Building with VITE_BASE_PATH=${VITE_BASE_PATH}" \
 
 
 FROM nginx:alpine
+# envsubst gera env.js em runtime a partir das envs do pod
+RUN apk add --no-cache gettext
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 COPY --from=builder /app/dist /usr/share/nginx/html
