@@ -1,4 +1,3 @@
-import { isAxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -14,18 +13,8 @@ type AlertaLoginEstado = {
   description?: string;
 };
 
-function ehFalhaAutenticacao(erro: unknown): boolean {
-  if (!isAxiosError(erro) || erro.response?.status !== 400) return false;
-  const detalhe = (erro.response.data as { detail?: string } | undefined)
-    ?.detail;
-  return detalhe === "Falha no serviço de autenticação";
-}
-
 export const useLogin = () => {
-  const [alert, setAlert] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [alert, setAlert] = useState<AlertaLoginEstado | null>(null);
   const navigate = useNavigate();
   const loginMutation = usePostLogin();
 
