@@ -20,8 +20,17 @@ export default defineConfig(({ mode }) => {
     `[vite] base = ${base} (VITE_BASE_PATH=${basePath ?? "(nao definido)"})`,
   );
 
+  const environment = process.env.ENVIRONMENT ?? env.ENVIRONMENT ?? "";
+  const alvoUrl = process.env.ALVO_URL ?? env.ALVO_URL ?? "";
+  const locusUrl = process.env.LOCUS_URL ?? env.LOCUS_URL ?? "";
+
   return {
     base,
+    define: {
+      "import.meta.env.ENVIRONMENT": JSON.stringify(environment),
+      "import.meta.env.ALVO_URL": JSON.stringify(alvoUrl),
+      "import.meta.env.LOCUS_URL": JSON.stringify(locusUrl),
+    },
     plugins: [
       react(),
       svgr({
