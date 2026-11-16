@@ -1,6 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { hidratarEnvLocal } from "@/config/hidratarEnvLocal";
 import { App } from "./App";
+
+hidratarEnvLocal();
 
 const container = document.getElementById("root");
 if (!container) {

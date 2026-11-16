@@ -7,6 +7,7 @@ import {
 } from "@/servicos/recursos/autenticacao";
 import { CabecalhoSelecao } from "./componentes/CabecalhoSelecao";
 import { CardSistema } from "./componentes/CardSistema";
+import { montarUrlSistema, obterEnv } from "./montarUrlSistema";
 import {
   Conteudo,
   ConteudoInterno,
@@ -20,12 +21,28 @@ import {
   TituloEscolha,
 } from "./Estilos";
 
-const URL_ALVO = "/alvo/";
-const URL_LOCUS = "/locus/";
+const URL_PADRAO_ALVO = "/alvo/";
+const URL_PADRAO_LOCUS = "/locus/";
 
 export function SelecaoSistemas() {
   const usuario = obterUsuarioLogado();
   const nomeSaudacao = nomeSaudacaoDoUsuario(usuario.nome);
+
+  const sessao = {
+    environment: obterEnv("ENVIRONMENT"),
+    token: localStorage.getItem("TOKEN"),
+    usuario: localStorage.getItem("USUARIO"),
+    nomeUsuario: localStorage.getItem("NOME_USUARIO"),
+  };
+
+  const urlAlvo = montarUrlSistema(URL_PADRAO_ALVO, {
+    ...sessao,
+    urlLocal: obterEnv("ALVO_URL"),
+  });
+  const urlLocus = montarUrlSistema(URL_PADRAO_LOCUS, {
+    ...sessao,
+    urlLocal: obterEnv("LOCUS_URL"),
+  });
 
   return (
     <Pagina>
@@ -41,7 +58,7 @@ export function SelecaoSistemas() {
 
           <GradeSistemas>
             <CardSistema
-              href={URL_ALVO}
+              href={urlAlvo}
               icone={<IconeAlvo />}
               logoSrc={logoAlvo}
               logoAlt="ALVO"
@@ -52,7 +69,7 @@ export function SelecaoSistemas() {
               rotuloBotao="Acessar ALVO"
             />
             <CardSistema
-              href={URL_LOCUS}
+              href={urlLocus}
               icone={<IconeLocus />}
               logoSrc={logoLocus}
               logoAlt="LOCUS"

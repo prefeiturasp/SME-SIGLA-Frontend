@@ -21,6 +21,7 @@ function renderPagina() {
 describe("SelecaoSistemas", () => {
   beforeEach(() => {
     localStorage.clear();
+    window.__ENV__ = {};
   });
 
   it("mostra a saudacao, os dois sistemas e o usuario logado", () => {
@@ -92,5 +93,29 @@ describe("SelecaoSistemas", () => {
     expect(localStorage.getItem("TOKEN")).toBeNull();
     expect(localStorage.getItem("USUARIO")).toBeNull();
     expect(localStorage.getItem("NOME_USUARIO")).toBeNull();
+  });
+
+  it("em ENVIRONMENT=local usa ALVO_URL/LOCUS_URL com a sessao na query", () => {
+    window.__ENV__ = {
+      ENVIRONMENT: "local",
+      ALVO_URL: "http://localhost:5174/",
+      LOCUS_URL: "http://localhost:5175/",
+    };
+    localStorage.setItem("TOKEN", "token-local");
+    localStorage.setItem("USUARIO", "7654321");
+    localStorage.setItem("NOME_USUARIO", "Maria");
+
+    renderPagina();
+
+    const alvo = screen.getByRole("link", { name: /Acessar ALVO/ });
+    const locus = screen.getByRole("link", { name: /Acessar LOCUS/ });
+
+    expect(alvo.getAttribute("href")).toContain("http://localhost:5174/");
+    expect(alvo.getAttribute("href")).toContain("TOKEN=token-local");
+    expect(alvo.getAttribute("href")).toContain("USUARIO=7654321");
+    expect(alvo.getAttribute("href")).toContain("NOME_USUARIO=Maria");
+
+    expect(locus.getAttribute("href")).toContain("http://localhost:5175/");
+    expect(locus.getAttribute("href")).toContain("TOKEN=token-local");
   });
 });
